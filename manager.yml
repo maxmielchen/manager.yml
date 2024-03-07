@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+
+  proxy:
+    image: traefik:v2.11.0
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+
+    command:
+      - --api.insecure=true
+      - --api.dashboard=true
+
+      - --providers.docker=true
+      - --providers.docker.network=proxy
+      - --providers.docker.exposedByDefault=true  
+
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+
+      - --certificatesresolvers.default.acme.tlschallenge=true
+      - --certificatesresolvers.default.acme.email={{ACME_EMAIL}}
+      - --certificatesresolvers.default.acme.storage=/letsencrypt/acme.json
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - letsencrypt:/letsencrypt
+    
+    networks:
+      - proxy
+
+  portainer:
+    image: portainer/portainer-ce:2.19.4
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
+
+    networks:
+      - proxy
+
+    labels:
+      - traefik.http.routers.portainer_http.entrypoints=web
+      - traefik.http.routers.portainer_http.rule=Host(`{{PORTAINER_DOMAIN}}`)
+      - traefik.http.routers.portainer_http.middlewares=portainer_http
+
+      - traefik.http.middlewares.portainer_http.redirectscheme.scheme=https
+
+      - traefik.http.routers.portainer_https.entrypoints=websecure
+      - traefik.http.routers.portainer_https.rule=Host(`{{PORTAINER_DOMAIN}}`)
+      - traefik.http.routers.portainer_https.tls.certresolver=default 
+      - traefik.http.routers.portainer_https.service=portainer_https
+
+      - traefik.http.services.portainer_https.loadbalancer.server.port=9000
+      
+networks:
+  proxy:
+    external: true  
+
+volumes:
+  letsencrypt:
+    external: true
+
+  portainer:
+    external: true
