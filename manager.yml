@@ -45,16 +45,16 @@ services:
     labels:
       - traefik.http.routers.portainer_http.entrypoints=web
       - traefik.http.routers.portainer_http.rule=Host(`{{PORTAINER_DOMAIN}}`)
-      - traefik.http.routers.portainer_http.middlewares=portainer_http
+      - traefik.http.routers.portainer_http.middlewares=portainer_redirect
 
-      - traefik.http.middlewares.portainer_http.redirectscheme.scheme=https
+      - traefik.http.middlewares.portainer_redirect.redirectscheme.scheme=https
 
       - traefik.http.routers.portainer_https.entrypoints=websecure
       - traefik.http.routers.portainer_https.rule=Host(`{{PORTAINER_DOMAIN}}`)
       - traefik.http.routers.portainer_https.tls.certresolver=default 
-      - traefik.http.routers.portainer_https.service=portainer_https
+      - traefik.http.routers.portainer_https.service=portainer_service
 
-      - traefik.http.services.portainer_https.loadbalancer.server.port=9000
+      - traefik.http.services.portainer_service.loadbalancer.server.port=9000
       
 networks:
   proxy:
