@@ -8,7 +8,6 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 8080:8080
 
     command:
       - --api.dashboard=true
@@ -25,6 +24,9 @@ services:
       - --certificatesresolvers.default.acme.storage=/letsencrypt/acme.json
 
     labels:
+      # Auth
+      - traefik.http.middlewares.traefik_dashboard_auth.basicauth.users={{DASHBOARD_LOGIN}}
+
       # Dashboard Service
       - traefik.http.services.traefik_dashboard_service.loadbalancer.server.port=8080
 
@@ -37,8 +39,11 @@ services:
       # HTTPS -> Service
       - traefik.http.routers.traefik_dashboard_https.entrypoints=websecure
       - traefik.http.routers.traefik_dashboard_https.rule=Host(`{{DASHBOARD_DOMAIN}}`)
+      - traefik.http.routers.traefik_dashboard_https.middlewares=traefik_dashboard_auth
       - traefik.http.routers.traefik_dashboard_https.tls.certresolver=default
       - traefik.http.routers.traefik_dashboard_https.service=traefik_dashboard_service
+
+      
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
