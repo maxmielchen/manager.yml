@@ -10,9 +10,6 @@ services:
       - 443:443
 
     command:
-      - --api.insecure=true
-      - --api.dashboard=true
-
       - --providers.docker=true
       - --providers.docker.network=proxy
       - --providers.docker.exposedByDefault=true  
