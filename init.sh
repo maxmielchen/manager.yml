@@ -61,6 +61,6 @@ echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     exit 1
 fi
-docker network create proxy
-docker stack deploy -c manager.yml manager
+docker network create proxy || exit 1
+docker compose -f manager.yml -p manager up -d  || exit 1
 echo "Manager started..."
