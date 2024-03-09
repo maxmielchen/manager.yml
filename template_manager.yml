@@ -47,7 +47,7 @@ services:
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - letsencrypt:/letsencrypt
+      - ./letsencrypt:/letsencrypt
     
     networks:
       - proxy
@@ -57,7 +57,7 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer:/data
+      - ./portainer:/data
 
     networks:
       - proxy
@@ -82,15 +82,3 @@ networks:
   proxy:
     external: true  
 
-volumes:
-  letsencrypt:
-    driver_opts:
-      type: none
-      device: ./letsencrypt
-      o: bind
-
-  portainer:
-    driver_opts:
-      type: none
-      device: ./portainer
-      o: bind
