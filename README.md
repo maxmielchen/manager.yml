@@ -8,6 +8,7 @@ This is a simple tool to setup a docker environment with Traefik and Portainer.
 - Docker
 - Docker Compose
 - unzip
+- apache2-utils
 - wget
 
 ### Usage
