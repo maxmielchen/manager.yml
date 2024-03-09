@@ -15,12 +15,12 @@ This is a simple tool to setup a docker environment with Traefik and Portainer.
 
 ```bash
 # Clone the repository 
-wget "https://github.com/maxmielchen/manager.yml/archive/refs/tags/1.0.1.zip"
+wget "https://github.com/maxmielchen/manager.yml/archive/refs/tags/1.0.2.zip"
 
 # Unzip the repository
-unzip 1.0.1.zip
-cp manager.yml-1.0.1/* .
-rm -rf manager.yml-1.0.1 1.0.1.zip
+unzip 1.0.2.zip
+cp manager.yml-1.0.2/* .
+rm -rf manager.yml-1.0.2 1.0.2.zip
 
 # Start wizard
 bash init.sh
