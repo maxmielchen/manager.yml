@@ -14,19 +14,9 @@ echo
 
 ACME_EMAIL=
 PORTAINER_DOMAIN=
-TRAEFIK_DASHBOARD_DOMAIN=
-TRAEFIK_API_DOMAIN=
-TRAEFIK_USER=
-TRAEFIK_PASSWORD=
 read -p "Email (for Let's Encrypt): " ACME_EMAIL
 read -p "Portainer domain: " PORTAINER_DOMAIN
-read -p "Treafik dashboard domain: " TRAEFIK_DASHBOARD_DOMAIN
-read -p "Treafik API domain: " TRAEFIK_API_DOMAIN
-read -p "Treafik user: " TRAEFIK_USER
-read -s -p "Treafik password: " TRAEFIK_PASSWORD
 echo
-TRAEFIK_LOGIN=$(htpasswd -nbB -C 8 $TRAEFIK_USER $TRAEFIK_PASSWORD | sed -e s/\\$/\\$\\$/g)
-echo "Traefik login: $TRAEFIK_LOGIN"
 
 
 echo
@@ -42,19 +32,9 @@ cp template_manager.yml manager.yml
 if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i "" "s#{{ACME_EMAIL}}#$ACME_EMAIL#g" manager.yml
     sed -i "" "s@{{PORTAINER_DOMAIN}}@$PORTAINER_DOMAIN@g" manager.yml
-    sed -i "" "s@{{TRAEFIK_DASHBOARD_DOMAIN}}@$TRAEFIK_DASHBOARD_DOMAIN@g" manager.yml
-    sed -i "" "s@{{TRAEFIK_API_DOMAIN}}@$TRAEFIK_API_DOMAIN@g" manager.yml
-    sed -i "" "s@{{TRAEFIK_USER}}@$TRAEFIK_USER@g" manager.yml
-    sed -i "" "s@{{TRAEFIK_PASSWORD}}@$TRAEFIK_PASSWORD@g" manager.yml
-    sed -i "" "s@{{TRAEFIK_LOGIN}}@$TRAEFIK_LOGIN@g" manager.yml
 else
     sed -i "s#{{ACME_EMAIL}}#$ACME_EMAIL#g" manager.yml
     sed -i "s@{{PORTAINER_DOMAIN}}@$PORTAINER_DOMAIN@g" manager.yml
-    sed -i "s@{{TRAEFIK_DASHBOARD_DOMAIN}}@$TRAEFIK_DASHBOARD_DOMAIN@g" manager.yml
-    sed -i "s@{{TRAEFIK_API_DOMAIN}}@$TRAEFIK_API_DOMAIN@g" manager.yml
-    sed -i "s@{{TRAEFIK_USER}}@$TRAEFIK_USER@g" manager.yml
-    sed -i "s@{{TRAEFIK_PASSWORD}}@$TRAEFIK_PASSWORD@g" manager.yml
-    sed -i "s@{{TRAEFIK_LOGIN}}@$TRAEFIK_LOGIN@g" manager.yml
 fi
 echo "manager.yml created..."
 
