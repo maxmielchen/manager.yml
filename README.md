@@ -23,7 +23,7 @@ cp manager.yml-1.0.1/* .
 rm -rf manager.yml-1.0.1 1.0.1.zip
 
 # Start wizard
-sh init.sh
+bash init.sh
 ```
 
 ### Add new Web Application
