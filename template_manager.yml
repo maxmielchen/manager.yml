@@ -90,8 +90,7 @@ volumes:
       o: bind
 
   portainer:
-    external: 
-      driver_opts:
-        type: none
-        device: ./portainer
-        o: bind
+    driver_opts:
+      type: none
+      device: ./portainer
+      o: bind
